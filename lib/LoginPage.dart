@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'AllProject.dart';
 
@@ -9,6 +10,29 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _projectNmae = TextEditingController();
+  final _projectId = TextEditingController();
+
+  getPrjectName() async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    return _pref.getString("projectName");
+  }
+  getPrjectId() async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    return _pref.getString("projectId");
+  }
+  setNmae(String ProjectNmae) async {
+    print("############# project Nme ############" + ProjectNmae.toString());
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    return _pref.setString("projectName", _projectNmae.text);
+
+  }
+  setId(String projectId) async {
+    print("############# project ID ############" + projectId.toString());
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    return _pref.setString("projectName", _projectId.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
@@ -60,6 +84,7 @@ class _LoginState extends State<Login> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: TextFormField(
+                        controller: _projectNmae,
                         decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.black),
                             enabledBorder: OutlineInputBorder(
@@ -79,6 +104,7 @@ class _LoginState extends State<Login> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: TextFormField(
+                        controller: _projectId,
                         decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.black),
                             enabledBorder: OutlineInputBorder(
@@ -98,11 +124,19 @@ class _LoginState extends State<Login> {
                     MaterialButton(
                       color: Colors.blue,
                       onPressed: () {
+
+                        setNmae(_projectNmae.text).toString();
+                        setId(_projectId.text).toString();
+
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  AllProject()),
+                                  AllProject(ProjectName: _projectNmae.text,
+                                  ProjectId: _projectId.text,
+                                  EditedDate: "12-03-2020",
+                                  SelectedDate: "13-04-2020",)),
                         );
                       },
                       height: 20,

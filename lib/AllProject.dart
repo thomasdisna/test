@@ -1,14 +1,42 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'LoginPage.dart';
 
 class AllProject extends StatefulWidget {
+  AllProject({
+    this.ProjectName,
+    this.ProjectId,
+    this.SelectedDate,
+    this.EditedDate
+});
+  String ProjectName;
+  String ProjectId;
+  String SelectedDate;
+  String EditedDate;
   @override
   _AllProjectState createState() => _AllProjectState();
 }
 
 class _AllProjectState extends State<AllProject> {
+  Future setNmae(String ProjectNmae) async {
+    print("############# project Nme ############" + ProjectNmae.toString());
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    return _pref.setString("projectName", widget. ProjectName.toString());
+
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(widget.ProjectName.toString());
+    print(widget.ProjectId.toString());
+    print(widget.EditedDate.toString());
+    print(widget.SelectedDate.toString());
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
@@ -163,17 +191,17 @@ class _AllProjectState extends State<AllProject> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Project 1",
+                                                    "Project :"+widget.ProjectName,
                                                     style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,
                                                         color: Colors.white),
                                                   ),
-                                                  Text("Created :12/9/2019",
+                                                  Text("Created :"+widget.SelectedDate,
                                                       style: TextStyle(fontWeight: FontWeight.w500,
                                                           color: Colors.white)),
-                                                  Text("Edited :12/9/2019",
+                                                  Text("Edited :"+widget.EditedDate,
                                                       style: TextStyle(fontWeight: FontWeight.w500,
                                                           color: Colors.white)),
-                                                  Text("ID# :A123",
+                                                  Text("ID# :"+widget.ProjectId,
                                                       style: TextStyle(fontWeight: FontWeight.w500,
                                                           color: Colors.white)),
                                                   Text("Records :10",
